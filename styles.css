@@ -153,6 +153,10 @@ img, svg { max-width: 100%; display: block; }
 .trace-3 { animation-delay: 1.6s; }
 @keyframes traceDraw { to { stroke-dashoffset: 0; } }
 
+/* data packets travelling along the traces */
+.hero-circuit .packet { fill: var(--blue); }
+.hero-circuit .packet-2 { fill: var(--signal); }
+
 .hero-inner { position: relative; max-width: 720px; }
 
 .hero-eyebrow {
@@ -402,6 +406,7 @@ body.js .reveal.visible { opacity: 1; transform: none; }
   body.js .reveal { opacity: 1; transform: none; transition: none; }
   .trace-1, .trace-2, .trace-3 { animation: none; stroke-dashoffset: 0; }
   .pulse-dot { animation: none; }
+  .hero-circuit .packet { display: none; }
   .btn, .service-card, .why-item { transition: none; }
 }
 
