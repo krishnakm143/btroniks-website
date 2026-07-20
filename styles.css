@@ -290,13 +290,6 @@ img, svg { max-width: 100%; display: block; }
   border-color: rgba(31, 85, 176, 0.45);
   box-shadow: var(--shadow);
 }
-.service-code {
-  position: absolute; top: 1.35rem; right: 1.35rem;
-  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em;
-  color: var(--blue); background: var(--blue-soft);
-  border: 1px solid rgba(31, 85, 176, 0.22);
-  border-radius: 4px; padding: 0.18rem 0.5rem;
-}
 .service-icon {
   width: 50px; height: 50px; border-radius: var(--radius);
   background: var(--blue-soft); border: 1px solid rgba(31, 85, 176, 0.22);
@@ -308,7 +301,7 @@ img, svg { max-width: 100%; display: block; }
 .service-card p { color: var(--muted); font-size: 0.95rem; }
 
 /* ---------- Why Us ---------- */
-.why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; margin-top: 2.6rem; }
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-top: 2.6rem; }
 .why-item {
   border-top: 2px solid var(--line); padding-top: 1.3rem;
   transition: border-color 0.25s ease;
