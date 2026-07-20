@@ -1,107 +1,156 @@
 // ================================================================
-// B-TRONIKS — script.js
-// Navbar, mobile menu, scroll reveal, contact form
+// B-TRONIKS — premium interactions
+// Particle network hero · scroll reveal · counters · nav
 // ================================================================
-
-// Enable scroll-reveal hidden states only when JS runs (no-JS users see everything)
 document.body.classList.add('js');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ---------- Navbar scrolled state ----------
-const navbar = document.getElementById('navbar');
-const onScroll = () => navbar.classList.toggle('scrolled', window.scrollY > 12);
-window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
+// ---------- hero entrance ----------
+requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.add('ready')));
 
-// ---------- Mobile menu ----------
-const navToggle = document.getElementById('navToggle');
-const navLinks = document.getElementById('navLinks');
+// ---------- nav state (scrolled + over-hero dark) ----------
+const nav = document.getElementById('nav');
+const hero = document.getElementById('hero');
+function navState() {
+  nav.classList.toggle('scrolled', scrollY > 20);
+  const heroBottom = hero.offsetHeight - 90;
+  nav.classList.toggle('on-dark', scrollY < heroBottom);
+}
+addEventListener('scroll', navState, { passive: true });
+navState();
 
-navToggle.addEventListener('click', () => {
-  const open = navLinks.classList.toggle('open');
-  navToggle.setAttribute('aria-expanded', String(open));
-  navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+// ---------- scroll progress ----------
+const prog = document.getElementById('scrollProgress');
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+  prog.style.width = (p * 100).toFixed(2) + '%';
+}, { passive: true });
+
+// ---------- mobile menu ----------
+const toggle = document.getElementById('navToggle');
+const links = document.getElementById('navLinks');
+toggle.addEventListener('click', () => {
+  const open = links.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', String(open));
 });
+links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  links.classList.remove('open');
+  toggle.setAttribute('aria-expanded', 'false');
+}));
 
-// Close menu when a link is tapped
-navLinks.querySelectorAll('a').forEach((a) =>
-  a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    navToggle.setAttribute('aria-expanded', 'false');
-  })
-);
-
-// ---------- Scroll reveal ----------
-const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// ---------- scroll reveal + counters ----------
 const revealEls = document.querySelectorAll('.reveal');
-
-if (prefersReduced || !('IntersectionObserver' in window)) {
-  revealEls.forEach((el) => el.classList.add('visible'));
+if (reduce || !('IntersectionObserver' in window)) {
+  revealEls.forEach(el => el.classList.add('in'));
+  document.querySelectorAll('[data-count]').forEach(el => el.textContent = el.dataset.count + (el.dataset.suffix || ''));
 } else {
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          io.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
-  );
-  revealEls.forEach((el) => io.observe(el));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  revealEls.forEach(el => io.observe(el));
+
+  // counters
+  const cio = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = +el.dataset.count;
+      const suffix = el.dataset.suffix || '';
+      const dur = 1200, t0 = performance.now();
+      const tick = (now) => {
+        const k = Math.min(1, (now - t0) / dur);
+        const eased = 1 - Math.pow(1 - k, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if (k < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      cio.unobserve(el);
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
 }
 
-// ---------- Contact form (Formspree with mailto fallback) ----------
-const form = document.getElementById('contactForm');
-const submitBtn = document.getElementById('submitBtn');
-const statusEl = document.getElementById('formStatus');
-
-const FORM_CONFIGURED = !form.action.includes('YOUR_FORM_ID');
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const data = new FormData(form);
-
-  // If Formspree isn't set up yet, fall back to the user's email app.
-  if (!FORM_CONFIGURED) {
-    const subject = encodeURIComponent('Project enquiry from ' + (data.get('name') || 'website'));
-    const body = encodeURIComponent(
-      'Name: ' + data.get('name') + '\n' +
-      'Phone: ' + (data.get('phone') || '-') + '\n' +
-      'Email: ' + data.get('email') + '\n\n' +
-      data.get('message')
-    );
-    window.location.href = 'mailto:btroniks11@gmail.com?subject=' + subject + '&body=' + body;
-    statusEl.textContent = 'Opening your email app… You can also reach us on WhatsApp.';
-    statusEl.className = 'form-status ok';
-    return;
-  }
-
-  submitBtn.disabled = true;
-  statusEl.textContent = 'Sending…';
-  statusEl.className = 'form-status';
-
-  try {
-    const res = await fetch(form.action, {
-      method: 'POST',
-      body: data,
-      headers: { Accept: 'application/json' },
-    });
-    if (res.ok) {
-      form.reset();
-      statusEl.textContent = 'Message sent! We will get back to you soon.';
-      statusEl.className = 'form-status ok';
-    } else {
-      throw new Error('Request failed');
-    }
-  } catch {
-    statusEl.textContent = 'Could not send right now — please use WhatsApp or email us directly.';
-    statusEl.className = 'form-status err';
-  } finally {
-    submitBtn.disabled = false;
-  }
-});
-
-// ---------- Footer year ----------
+// ---------- footer year ----------
 document.getElementById('year').textContent = new Date().getFullYear();
+
+// ================================================================
+// Hero particle network — nodes + links, subtle parallax to cursor
+// ================================================================
+(function () {
+  const canvas = document.getElementById('net');
+  if (!canvas || reduce) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, DPR, nodes = [], mouse = { x: 0.5, y: 0.4 }, raf;
+
+  const COUNT = () => Math.min(64, Math.floor((W * H) / 26000));
+  const LINK = 150;
+
+  function resize() {
+    DPR = Math.min(2, devicePixelRatio || 1);
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    seed();
+  }
+  function seed() {
+    nodes = [];
+    const n = COUNT();
+    for (let i = 0; i < n; i++) {
+      nodes.push({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.28, vy: (Math.random() - 0.5) * 0.28,
+        r: Math.random() * 1.6 + 0.8
+      });
+    }
+  }
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    const mx = mouse.x * W, my = mouse.y * H;
+    for (const p of nodes) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+      // gentle drift toward cursor
+      p.x += (mx - W / 2) * 0.000018 * (H - p.y) / H;
+    }
+    // links
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i], b = nodes[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.hypot(dx, dy);
+        if (d < LINK) {
+          const o = (1 - d / LINK) * 0.5;
+          ctx.strokeStyle = `rgba(79,134,247,${o})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+    }
+    // nodes
+    for (const p of nodes) {
+      const dm = Math.hypot(p.x - mx, p.y - my);
+      const glow = dm < 130 ? 1 : 0.55;
+      ctx.fillStyle = `rgba(134,176,255,${glow})`;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill();
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  addEventListener('resize', resize);
+  addEventListener('pointermove', (e) => {
+    const r = canvas.getBoundingClientRect();
+    mouse.x = (e.clientX - r.left) / r.width;
+    mouse.y = (e.clientY - r.top) / r.height;
+  });
+  // pause when hero off-screen
+  const vis = new IntersectionObserver((es) => {
+    es.forEach(e => {
+      if (e.isIntersecting) { if (!raf) frame(); }
+      else { cancelAnimationFrame(raf); raf = null; }
+    });
+  }, { threshold: 0.01 });
+  resize(); vis.observe(canvas);
+})();
