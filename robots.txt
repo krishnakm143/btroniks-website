@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://krishnakm143.github.io/btroniks-website/sitemap.xml
+Sitemap: https://btroniks.com/sitemap.xml
