@@ -446,3 +446,23 @@ body.js .reveal.visible { opacity: 1; transform: none; }
   .hero-actions .btn { width: 100%; }
   .contact-card, .contact-form { padding: 1.6rem 1.3rem; }
 }
+
+/* ---------- FAQ ---------- */
+.faq-list { display: flex; flex-direction: column; gap: 0.9rem; max-width: 760px; }
+.faq-item {
+  background: #FFFFFF; border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 0 1.4rem; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.faq-item[open] { border-color: var(--blue); box-shadow: var(--shadow); }
+.faq-item summary {
+  list-style: none; cursor: pointer; padding: 1.15rem 0; font-family: var(--font-display);
+  font-weight: 600; font-size: 1.02rem; color: var(--ink);
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+"; font-size: 1.5rem; font-weight: 400; color: var(--blue); line-height: 1; flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p { color: var(--muted); padding: 0 0 1.2rem; font-size: 0.98rem; max-width: 62ch; }
