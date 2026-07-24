@@ -5,8 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>B-TRONIKS — Mechatronics & IoT Solutions | Electronics · Mechanical · Software</title>
   <meta name="description" content="B-TRONIKS is a Mechatronics solutions company since 2018 — R&D and customised projects, IoT, sensor integration, LoRa/ESP32/GPS wireless networks, mechanical design, power electronics and product development.">
-  <meta name="keywords" content="B-TRONIKS, Mechatronics, IoT solutions, customised projects, LoRa, ESP32, sensor integration, embedded systems, R&D, product development, Mumbai">
+  <meta name="keywords" content="B-TRONIKS, Mechatronics company, IoT solutions India, customised projects, embedded systems, R&D, product development, LoRa, ESP32, sensor integration, industrial automation, Vadodara, Gujarat">
+  <meta name="author" content="B-TRONIKS">
   <link rel="canonical" href="https://btroniks.com/">
+
+  <!-- Geo targeting -->
+  <meta name="geo.region" content="IN-GJ">
+  <meta name="geo.placename" content="Vadodara, Gujarat">
+  <meta name="geo.position" content="22.3072;73.1812">
+  <meta name="ICBM" content="22.3072, 73.1812">
+
+  <!-- Icons & PWA -->
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="apple-touch-icon" href="/og-image.jpg">
+  <meta name="theme-color" content="#1F55B0">
 
   <!-- Open Graph (Facebook/WhatsApp/LinkedIn sharing + Meta Ads) -->
   <meta property="og:title" content="B-TRONIKS — Mechatronics & IoT Solutions">
@@ -36,20 +48,73 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "B-TRONIKS",
-    "description": "Mechatronics solutions company providing R&D, customised projects, IoT, wireless networking, sensor integration, mechanical design and power electronics using Electronics, Mechanical and Software engineering.",
-    "url": "https://btroniks.com/",
-    "logo": "https://btroniks.com/og-image.jpg",
-    "image": "https://btroniks.com/og-image.jpg",
-    "foundingDate": "2018",
-    "founder": { "@type": "Person", "name": "Jaydeep Panchal" },
-    "telephone": "+918169102798",
-    "email": "btroniks11@gmail.com",
-    "address": { "@type": "PostalAddress", "addressCountry": "IN" },
-    "areaServed": "IN",
-    "knowsAbout": ["IoT", "Mechatronics", "Embedded Systems", "LoRa", "ESP32", "Sensor Integration", "Power Electronics", "Product Development", "R&D"],
-    "sameAs": []
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://btroniks.com/#org",
+        "name": "B-TRONIKS",
+        "alternateName": "BTRONIKS",
+        "url": "https://btroniks.com/",
+        "logo": "https://btroniks.com/og-image.jpg",
+        "image": "https://btroniks.com/og-image.jpg",
+        "description": "Mechatronics solutions company providing R&D, customised projects, IoT, sensor integration, mechanical design and embedded systems using Electronics, Mechanical and Software engineering.",
+        "foundingDate": "2018",
+        "founder": { "@type": "Person", "name": "Jaydeep Panchal" },
+        "email": "btroniks11@gmail.com",
+        "telephone": "+91-8169102798",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Vadodara",
+          "addressRegion": "Gujarat",
+          "addressCountry": "IN"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+91-8169102798",
+          "email": "btroniks11@gmail.com",
+          "contactType": "sales",
+          "areaServed": "IN",
+          "availableLanguage": ["en", "hi"]
+        },
+        "knowsAbout": ["Mechatronics", "IoT", "Embedded Systems", "R&D", "Customised Projects", "Sensor Integration", "Industrial Automation", "LoRa", "ESP32"],
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://btroniks.com/#website",
+        "url": "https://btroniks.com/",
+        "name": "B-TRONIKS",
+        "publisher": { "@id": "https://btroniks.com/#org" },
+        "inLanguage": "en"
+      },
+      {
+        "@type": "ProfessionalService",
+        "name": "B-TRONIKS",
+        "image": "https://btroniks.com/og-image.jpg",
+        "url": "https://btroniks.com/",
+        "telephone": "+91-8169102798",
+        "priceRange": "$$",
+        "areaServed": "IN",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Vadodara",
+          "addressRegion": "Gujarat",
+          "addressCountry": "IN"
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Services",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "R&D & Product Development" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Customised Projects" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Mechanical Engineering" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "IoT Solutions" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Wireless & Networking" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sensors & Control" } }
+          ]
+        }
+      }
+    ]
   }
   </script>
 

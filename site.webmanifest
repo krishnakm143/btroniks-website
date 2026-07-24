@@ -1,0 +1,12 @@
+{
+  "name": "B-TRONIKS — Mechatronics & IoT Solutions",
+  "short_name": "B-TRONIKS",
+  "description": "We turn machines into intelligent systems. Mechatronics, IoT, R&D and customised projects — since 2018.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0E17",
+  "theme_color": "#1F55B0",
+  "icons": [
+    { "src": "/og-image.jpg", "sizes": "512x512", "type": "image/jpeg" }
+  ]
+}
